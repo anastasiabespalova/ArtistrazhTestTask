@@ -9,16 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var catsViewModel = CatsViewModel()
-    
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
-                ScrollView {
-                    VStack {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 20) {
                         ForEach(catsViewModel.cats, id: \.self) { cat in
                             VStack {
                                 // Image
-                                Image(cat.catInfo.photoTitle).resizable()
+                                Image(cat.catInfo.photoTitle)
+                                    .resizable()
                                     .frame(width: cat.photoSelected ? 2*geometry.size.width/3 : geometry.size.width/3,
                                            height: cat.photoSelected ? 2*geometry.size.width/3 : geometry.size.width/3)
                                 // Zoom button
@@ -28,6 +28,7 @@ struct ContentView: View {
                                             Spacer()
                                             Text("Zoom")
                                                 .frame(alignment: .trailing)
+                                                .foregroundColor(.blue)
                                         }
                                         .frame(width: 2*geometry.size.width/3, alignment: .center)
                                     }
@@ -37,11 +38,16 @@ struct ContentView: View {
                                 catsViewModel.didSelectPhoto(for: cat)
                             }
                         }
+                        
+                        
                         // To scroll not only in 200x200 center frame
                         Spacer()
                             .frame(width: geometry.size.width, height: 0)
                     }
+                    
+                    
                 }
+
             }
             .navigationTitle("Cats")
         }
