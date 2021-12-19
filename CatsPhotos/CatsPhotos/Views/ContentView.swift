@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var catsViewModel = CatsViewModel()
+    @Namespace var nspace
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
@@ -20,7 +21,7 @@ struct ContentView: View {
                                 Image(cat.catInfo.photoTitle)
                                     .resizable()
                                     .frame(width: cat.photoSelected ? 2*geometry.size.width/3 : geometry.size.width/3,
-                                           height: cat.photoSelected ? 2*geometry.size.width/3 : geometry.size.width/3)
+                                             height: cat.photoSelected ? 2*geometry.size.width/3 : geometry.size.width/3)
                                 // Zoom button
                                 if cat.photoSelected {
                                     NavigationLink(destination: SinglePhoto(photoTitle: cat.catInfo.photoTitle)) {
@@ -37,8 +38,8 @@ struct ContentView: View {
                             .onTapGesture {
                                 catsViewModel.didSelectPhoto(for: cat)
                             }
+                            
                         }
-                        
                         
                         // To scroll not only in 200x200 center frame
                         Spacer()
