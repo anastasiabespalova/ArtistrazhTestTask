@@ -9,50 +9,33 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var catsViewModel = CatsViewModel()
-    @Namespace var nspace
     var body: some View {
         NavigationView {
-            GeometryReader { geometry in
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 20) {
-                        ForEach(catsViewModel.cats, id: \.self) { cat in
-                            VStack {
-                                // Image
-                                Image(cat.catInfo.photoTitle)
-                                    .resizable()
-                                    .frame(width: cat.photoSelected ? 2*geometry.size.width/3 : geometry.size.width/3,
-                                             height: cat.photoSelected ? 2*geometry.size.width/3 : geometry.size.width/3)
-                                // Zoom button
-                                if cat.photoSelected {
-                                    NavigationLink(destination: SinglePhoto(photoTitle: cat.catInfo.photoTitle)) {
-                                        HStack {
-                                            Spacer()
-                                            Text("Zoom")
-                                                .frame(alignment: .trailing)
-                                                .foregroundColor(.blue)
-                                        }
-                                        .frame(width: 2*geometry.size.width/3, alignment: .center)
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 10) {
+                    ForEach(catsViewModel.cats) { cat in
+                        VStack(alignment: .trailing) {
+                            Image(cat.catInfo.photoTitle)
+                                .resizable()
+                                .frame(width: cat.photoSelected ? 300 : 150,
+                                       height: cat.photoSelected ? 300 : 150)
+                                .onTapGesture {
+                                    withAnimation {
+                                        catsViewModel.didSelectPhoto(for: cat)
                                     }
                                 }
+                            NavigationLink(destination: SinglePhoto(photoTitle: cat.catInfo.photoTitle)) {
+                                Text("Zoom")
+                                    .font(.title)
                             }
-                            .onTapGesture {
-                                catsViewModel.didSelectPhoto(for: cat)
-                            }
-                            
+                            .opacity(cat.photoSelected ? 1 : 0)
                         }
-                        
-                        // To scroll not only in 200x200 center frame
-                        Spacer()
-                            .frame(width: geometry.size.width, height: 0)
                     }
-                    
-                    
                 }
-
             }
-            .navigationTitle("Cats")
+            .navigationBarTitle("Cats")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
+        
     }
 }
-
-

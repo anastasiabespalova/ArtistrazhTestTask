@@ -7,13 +7,6 @@ Shows cat photos in scroll view. At the first tap scales an image and shows "Zoo
 
 - SwiftUI/MVVM
 
-## ToDo
-Animation when zooming an image doesn't work properly. Tried the following possible solutions both on the image an VStack (image + zoom button).
-
-- .scaleEffect (.scaleEffect seems to perform a visual transform on the view without actually affecting its frame, so the ScrollView doesn't know to accommodate the bigger size. So I decided to change .frame)
-- .animation, .withAnimation (Don't animate .frame change)
-
-
 
 ## Screenshots
 <p float="left">

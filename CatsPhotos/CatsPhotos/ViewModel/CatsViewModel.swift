@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct CatDisplay: Hashable {
+struct CatDisplay: Hashable, Identifiable {
+    let id = UUID()
     var catInfo: Cat
     var photoSelected: Bool
 }
@@ -18,11 +19,14 @@ class CatsViewModel: ObservableObject {
     
     @Published var cats: [CatDisplay] = []
     
+    
     init() {
         for cat in catsModel.cats {
             cats.append(CatDisplay(catInfo: cat, photoSelected: false))
         }
     }
+    
+   
     
     // MARK: -Intents
     
